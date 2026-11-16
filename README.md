@@ -65,3 +65,7 @@ To view the dashboard locally, serve the output directory over HTTP (any static 
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Built with
+
+Built with [Muse](https://muse.ai) — deco's AI agent.

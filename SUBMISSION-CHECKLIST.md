@@ -13,11 +13,11 @@ Muse built the code but cannot submit it: submission needs your GitHub account a
 - **Node.js 22.18+** on the machine that runs the make.fun CLI.
 - The make.fun kit CLI: `cli/makefun.mjs` in the kit on this VM (`workspace/.jarvis/idea-executions/4a97b0e9-5b44-4d5b-bbe8-7cb89ac49617/scratch/kit/token-radar-01-kit/`). Ask Muse for a copy if you run the CLI on another machine.
 
-## 1. Create the GitHub repo
+## 1. Create the GitHub repo — DONE (2026-11-16)
 
-- Create a **new public** repo named `token-launch-radar` under your GitHub login. It must be created after the competition opened (2026-11-14 10:00 UTC) — a fresh repo now satisfies this. Do not reuse an old repo.
-- Push **all** the files in this folder to it: `main.ts`, `lib/`, `vendor/`, `dashboard/`, `screenshots/`, `LICENSE`, `README.md`, `SUBMISSION-CHECKLIST.md`.
-- **Do not hand-edit `main.ts`, `lib/model.ts` or the dashboard files after pushing.** The transcript bundle (step 5) proves the agent wrote this code; edits you make by hand dilute that proof. If a change is needed, ask Muse to make it in-session and re-bundle.
+- Public repo created by Muse: https://github.com/0xspotonchain/token-launch-radar (created 2026-11-16, after the competition opened 2026-11-14 10:00 UTC).
+- All pack files pushed: `main.ts`, `lib/`, `vendor/`, `dashboard/`, `screenshots/`, `LICENSE`, `README.md`, `SUBMISSION-CHECKLIST.md`. `transcripts.tar.gz` was NOT pushed (private, see step 5).
+- **Do not hand-edit `main.ts`, `lib/model.ts` or the dashboard files.** The transcript bundle (step 5) proves the agent wrote this code; edits you make by hand dilute that proof. If a change is needed, ask Muse to make it in-session and re-bundle.
 
 ## 2. Fix the README badges — DONE
 
@@ -30,16 +30,16 @@ https://make.fun/badge/token-radar-01/0xspotonchain/token-launch-radar/reward.sv
 
 The repo check requires all three live make.fun badges in the README (the competition badge is already live). No `{owner}` placeholders remain.
 
-## 3. Set the repo About
+## 3. Set the repo About — DONE (2026-11-16)
 
-On the repo's GitHub page (About → gear icon):
+Set by Muse on the repo page:
 
 - **Website:** `https://make.fun/bounty/token-radar-01`
-- **Topics:** `makefun` (required), plus `ai-agents`, `bounties`, `trading` (recommended).
+- **Topics:** `makefun`, `ai-agents`, `bounties`, `trading`.
 
 ## 4. Note the commit SHA
 
-Copy the full SHA of the pushed commit (GitHub repo page → commit history → the latest commit). The submission names this exact commit.
+Copy the full SHA of the latest commit on main from the repo page at submit time (repo page → commit history → the latest commit). Do not use a SHA written down earlier — any push after it makes it stale. The submission names this exact commit.
 
 ## 5. Bundle the transcripts — DONE (already built)
 
@@ -59,7 +59,7 @@ From the machine holding your Solana keypair, with the kit CLI and the bundle fr
 
 ```
 node cli/makefun.mjs submit --competition token-radar-01 \
-  --repo-url https://github.com/<your-username>/token-launch-radar \
+  --repo-url https://github.com/0xspotonchain/token-launch-radar \
   --commit <full-sha-from-step-4> \
   --title "Token Launch Radar" \
   --bundle transcripts.tar.gz \

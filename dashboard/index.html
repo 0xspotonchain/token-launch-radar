@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Launch Radar: pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<a class="skip" href="#board">Skip to the board</a>
+<header class="head">
+  <div class="head-row">
+    <div>
+      <p class="eyebrow">DefiLlama snapshot &middot; <span id="asof"></span></p>
+      <h1>Token Launch Radar</h1>
+      <p class="lede">Every protocol that still records no token, ranked by what its launch would be worth. Wrapped, staked and bridged products are left out: they are someone else&rsquo;s token in another form, not a launch waiting to happen.</p>
+    </div>
+    <div class="stats" id="stats" aria-label="Snapshot summary"></div>
+  </div>
+  <nav class="tabs" aria-label="Views">
+    <button type="button" id="tab-board" class="tab active" aria-pressed="true">Ranked board</button>
+    <button type="button" id="tab-live" class="tab" aria-pressed="false">Live tokens</button>
+    <a class="tab link" href="#model">How the model works</a>
+  </nav>
+</header>
+
+<main>
+  <section id="board" class="panel" aria-label="Ranked board">
+    <div class="controls">
+      <label class="ctl grow">Search
+        <input id="q" type="search" placeholder="Protocol name or slug" autocomplete="off">
+      </label>
+      <label class="ctl">Category
+        <select id="cat"><option value="">All categories</option></select>
+      </label>
+      <label class="ctl">Chain
+        <select id="chain"><option value="">All chains</option></select>
+      </label>
+      <label class="ctl">Sort by
+        <select id="sort">
+          <option value="rank">Rank (implied value)</option>
+          <option value="tvl">TVL</option>
+          <option value="growth">7-day growth</option>
+          <option value="age">Age (no token)</option>
+          <option value="name">Name</option>
+        </select>
+      </label>
+      <label class="ctl check"><input id="watch" type="checkbox"> Watchlist only</label>
+    </div>
+    <p class="count" id="count" aria-live="polite"></p>
+    <div class="table-wrap">
+      <table id="table">
+        <thead>
+          <tr>
+            <th scope="col" class="num">Rank</th>
+            <th scope="col">Protocol</th>
+            <th scope="col">Category</th>
+            <th scope="col">Chains</th>
+            <th scope="col" class="num">TVL</th>
+            <th scope="col" class="num">7d</th>
+            <th scope="col" class="num">Age</th>
+            <th scope="col" class="num">Implied value</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="hint">Select a row to open its detail view: the model breakdown and the farm plan.</p>
+  </section>
+
+  <section id="detail" class="panel detail" hidden aria-label="Protocol detail">
+    <div class="detail-head">
+      <h2 id="detail-name"></h2>
+      <button type="button" id="detail-close" class="btn">Close</button>
+    </div>
+    <div id="detail-facts" class="facts"></div>
+    <h3>Why this value</h3>
+    <div id="detail-model" class="model-break"></div>
+    <h3>Farm plan</h3>
+    <ol id="detail-steps" class="steps"></ol>
+    <p class="warn">A plan is a starting point, not advice. Verify every step on the protocol&rsquo;s own channels, never pay a fee to claim, and never share a seed phrase.</p>
+  </section>
+
+  <section id="sandbox" class="panel" aria-label="Model sandbox">
+    <h2>Model sandbox</h2>
+    <p>Change the two constants that matter most and watch the board re-rank from the same snapshot figures. The sandbox never leaves this page: the ranked board file keeps the published constants.</p>
+    <div class="sliders">
+      <label class="slider">Base multiple: <output id="base-out"></output>
+        <input id="base" type="range" min="0.05" max="0.60" step="0.01" value="0.30">
+      </label>
+      <label class="slider">Growth weight: <output id="growth-out"></output>
+        <input id="growth" type="range" min="0" max="1" step="0.05" value="0.60">
+      </label>
+      <button type="button" id="sandbox-reset" class="btn">Reset to published model</button>
+    </div>
+    <p class="count" id="sandbox-note" aria-live="polite"></p>
+  </section>
+
+  <section id="model" class="panel" aria-label="How the model works">
+    <h2>How the model works</h2>
+    <p class="formula">implied value = TVL &times; 0.30 &times; (1 + clamped 7-day growth &times; 0.60) &times; maturity</p>
+    <ul class="method">
+      <li><strong>Base.</strong> TVL times 0.30: the value already locked is the anchor for what a launch would be worth.</li>
+      <li><strong>Growth.</strong> The 7-day TVL change, clamped to &minus;50% &hellip; +150%, weighted 0.60: momentum moves the value, but a single hot week cannot run away with it.</li>
+      <li><strong>Maturity.</strong> 0.65 + 0.35 &times; min(age, 730 days) / 730: a protocol that has run longer with no token has more accrued launch value. Unknown age counts as 180 days.</li>
+      <li><strong>Pre-token means what the snapshot records:</strong> no market cap, no CoinGecko id, no symbol. The page says a protocol &ldquo;records no token&rdquo;, never that it has none.</li>
+      <li><strong>Kept out of the board:</strong> exchanges, versioned pools (names ending in V2, v2, 2.0 and the like), and wrapped, staked or bridged products &mdash; the watchlist&rsquo;s own rule, applied to the early rows too.</li>
+      <li><strong>Live tokens stay separate.</strong> Protocols that already trade are shown under Live tokens with the market&rsquo;s own value (market cap), never mixed into the ranked board.</li>
+    </ul>
+    <p class="foot">Data: DefiLlama public protocols API, fetched once for this snapshot. The snapshot carries no ranking, no implied value and no farm plan &mdash; deriving them is this page&rsquo;s work. No network is used: the whole dataset ships with the page.</p>
+  </section>
+</main>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
